@@ -11,12 +11,12 @@ Virtual Infrastructure Provisioning:
 
 Splunk Server Foundation:
 
-    Commenced the software installation phase by ensuring seamless network communication and internet access across all virtual machines.
+    Started the software installation phase by ensuring seamless network communication and internet access across all virtual machines.
     Established a dedicated NAT Network within VirtualBox to facilitate internal connectivity.
     Prepared the designated Splunk server by disabling DHCP, assigning a static IP address, configuring the default gateway, and specifying the appropriate DNS server through modifications to the .yaml configuration file.
     Leveraged a VirtualBox shared directory to streamline software transfer, downloading the Splunk installer into this shared space.
     Resolved VirtualBox dependency issues to ensure smooth interaction.
-    Strategically mounted a host machine directory ("share") to a guest Ubuntu directory ("WindowsActiveDirectory") to facilitate file access.
+    Mounted a host machine directory ("share") to a guest Ubuntu directory ("WindowsActiveDirectory") to facilitate file access.
     Executed the Splunk installer on the designated VM and configured Splunk to automatically start upon system boot.
     Validated the successful installation and initial functionality of the Splunk instance via the web dashboard.
     Rectified an initial inaccessibility issue from the host device by implementing a specific port forwarding rule within VirtualBox.
@@ -25,8 +25,8 @@ Telemetry Ingestion Setup:
 
     Initiated the deployment of Universal Forwarders onto the Active Directory server and the target Windows 10 machine to enable data collection.
     Ensured proper network configuration on the Windows 10 VM, including setting a static IP address, verifying DNS server settings, and confirming the default gateway.
-    Procured essential security tools via browser download, including the Splunk Universal Forwarder, Sysmon (System Monitor), and a recommended Sysmon configuration file.
-    Successfully installed and configured Sysmon utilizing the downloaded installer and configuration file for enhanced endpoint monitoring.
+    Procured security tools via browser download, including the Splunk Universal Forwarder, Sysmon (System Monitor), and a recommended Sysmon configuration file.
+    Installed and configured Sysmon utilizing the downloaded installer and configuration file for enhanced endpoint monitoring.
     Created a custom inputs.conf file for the Splunk Forwarder on the Windows 10 machine, specifically defining the data sources to be forwarded to the Splunk instance.
     Directed the collected telemetry to a dedicated Splunk index named "endpoint" for organized data management.
     Verified successful data ingestion by confirming the presence of over 6,000 events within the newly created "endpoint" index, originating from the Windows 10 forwarder.
@@ -38,10 +38,9 @@ Active Directory Domain Establishment:
 
     Commenced the installation and configuration of Active Directory Domain Services on the designated server, transforming it into the domain controller.
     Utilized the "Add Roles or Features" wizard within Server Manager, selecting "Active Directory Domain Services" and proceeding through the installation prompts.
-    Upon completion of the installation, initiated the Active Directory Domain Services Configuration Wizard to promote the server to a domain controller.
+    Initiated the Active Directory Domain Services Configuration Wizard to promote the server to a domain controller.
     Defined the domain name with a top-level domain, adhering to the ".anything" convention for internal networks, and named the domain "THESHIRE.LOCAL" for organizational purposes.
     Accepted default settings for most configuration options to suit the immediate lab requirements.
-    Observed the automatic system restart following the configuration process.
     Verified the domain controller status upon re-login, noting the "THESHIRE" prefix preceding the administrator account.
     Created organizational units (OUs) and user accounts within Active Directory for experimentation, including groups named "Hobbits" and "Wizards," and user accounts "Frodo Baggins (fbaggins)" and "Gandalf TheGrey (gthegrey)" with intentionally simple passwords for testing.
     Successfully completed the initial configuration of the Active Directory Server.
