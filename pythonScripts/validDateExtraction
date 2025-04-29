@@ -1,4 +1,5 @@
 #This program is searching a text for valid dates in the dd/mm/yyyy or dd-mm-yyyy format.
+#It returns a list of valid dates from a string that is passed to it
 #An experiment with regex. It is understood that Python has a date validator but I wanted to write this program for myself
 import re
 #regex for dates in the dd/mm/yyyy and dd-mm-yyyy format
