@@ -1,0 +1,62 @@
+#This is a chess board validator, for experimentation with dictionaries
+#This is a sample board, and valid piece names
+chessBoard = {'a8': ' ', 'b8': ' ', 'c8': ' ', 'd8': ' ', 'e8': ' ', 'f8': ' ', 'g8': ' ', 'h8': ' ',
+              'a7': ' ', 'b7': ' ', 'c7': ' ', 'd7': ' ', 'e7': ' ', 'f7': ' ', 'g7': ' ', 'h7': ' ',
+              'a6': ' ', 'b6': ' ', 'c6': ' ', 'd6': ' ', 'e6': ' ', 'f6': ' ', 'g6': ' ', 'h6': ' ',
+              'a5': ' ', 'b5': ' ', 'c5': ' ', 'd5': ' ', 'e5': ' ', 'f5': ' ', 'g5': ' ', 'h5': ' ',
+              'a4': ' ', 'b4': ' ', 'c4': ' ', 'd4': ' ', 'e4': ' ', 'f4': ' ', 'g4': ' ', 'h4': ' ',
+              'a3': ' ', 'b3': ' ', 'c3': ' ', 'd3': ' ', 'e3': ' ', 'f3': ' ', 'g3': ' ', 'h3': ' ',
+              'a2': ' ', 'b2': ' ', 'c2': ' ', 'd2': ' ', 'e2': ' ', 'f2': ' ', 'g2': ' ', 'h2': ' ',
+              'a1': ' ', 'b1': ' ', 'c1': ' ', 'd1': ' ', 'e1': ' ', 'f1': ' ', 'g1': ' ', 'h1': ' '}
+validPieces = (' ', 'bking','wking','bqueen','wqueen','brook','wrook','bbishop','wbishop','bknight','wknight','bpawn','wpawn')
+import re
+def isValidBoard(board): #Begin the function, pass a dictionary, establish variables
+    stillValid = True
+    bPawnCounter = 0
+    wPawnCounter = 0
+    bKingCounter = 0
+    wKingCounter = 0
+    wPieceCounter = 0
+    bPieceCounter = 0
+    
+    for space in board.keys(): #Checking to see if space name is valid
+        if space not in chessBoard.keys():
+            stillValid = False
+    for piece in board.values(): #Checking to see if piece names are valid
+        if piece not in validPieces:
+            stillValid = False
+        if piece == 'bpawn': #Counters to see if we have an "impossible" board
+            bPawnCounter += 1
+        if piece == 'wpawn':
+            wPawnCounter += 1
+        if piece == 'wking':
+            wKingCounter += 1
+        if piece == 'bking':
+            bKingCounter += 1
+        if piece in ('wknight', 'wrook', 'wpawn', 'wqueen', 'wking', 'wbishop'):
+            wPieceCounter += 1
+        if piece in ('bknight', 'brook', 'bpawn', 'bqueen', 'bking', 'bbishop'):
+            bPieceCounter += 1
+    if bPawnCounter > 8: #Conditions that would make our board "impossible"
+        stillValid = False
+    if wPawnCounter > 8:
+       stillValid = False
+    if wKingCounter != 1:
+        stillValid = False
+    if bKingCounter != 1:
+        stillValid = False
+    if bPieceCounter > 16:
+        stillValid = False
+    if wPieceCounter > 16:
+        stillValid = False
+    return stillValid
+#this is a 'real' chess board to pass to the function, experimental data
+newBoard = {  'a8': 'brook', 'b8': 'bknight', 'c8': 'bbishop', 'd8': 'bking', 'e8': 'bqueen', 'f8': 'bbishop', 'g8': 'bknight', 'h8': 'brook',
+              'a7': 'bpawn', 'b7': 'bpawn', 'c7': 'bpawn', 'd7': 'bpawn', 'e7': 'bpawn', 'f7': 'bpawn', 'g7': 'bpawn', 'h7': 'bpawn',
+              'a6': ' ', 'b6': ' ', 'c6': ' ', 'd6': ' ', 'e6': ' ', 'f6': ' ', 'g6': ' ', 'h6': ' ',
+              'a5': ' ', 'b5': ' ', 'c5': ' ', 'd5': ' ', 'e5': ' ', 'f5': ' ', 'g5': ' ', 'h5': ' ',
+              'a4': ' ', 'b4': ' ', 'c4': ' ', 'd4': ' ', 'e4': ' ', 'f4': ' ', 'g4': ' ', 'h4': ' ',
+              'a3': ' ', 'b3': ' ', 'c3': ' ', 'd3': ' ', 'e3': ' ', 'f3': ' ', 'g3': ' ', 'h3': ' ',
+              'a2': 'wpawn', 'b2': 'wpawn', 'c2': 'wpawn', 'd2': 'wpawn', 'e2': 'wpawn', 'f2': 'wpawn', 'g2': 'wpawn', 'h2': 'wpawn',
+              'a1': 'wrook', 'b1': 'wknight', 'c1': 'wbishop', 'd1': 'wking', 'e1': 'wqueen', 'f1': 'wbishop', 'g1': 'wknight', 'h1': 'wrook'}
+print(isValidBoard(newBoard)) #return to see if the board we were given is valid
