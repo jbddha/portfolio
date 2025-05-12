@@ -1,0 +1,42 @@
+#This is a mad-libs program that will parse a mad libs text file
+#and allow user to enter their own input.
+#Outputs text to screen and the solution as new text file
+import pyinputplus as pyip
+import re, sys
+from pathlib import Path
+#Open file and find all instances of keywords
+madFile = open(Path(sys.argv[1]), 'r')
+madString = madFile.read()
+keyWordRegex = re.compile(r'ADJECTIVE|NOUN|VERB|ADVERB')
+newWords = []
+descriptors = keyWordRegex.findall(madString)
+#Get  user input on what they would like to replace those descriptors with
+for i in descriptors:
+    word = pyip.inputStr(f'Enter a(n) {i}:')
+    newWords.append(word)
+#Split words into a list to check if they match the regex
+indivWords = madString.split()
+indexC = 0
+for i in range(len(indivWords)):
+    word = indivWords[i].strip('!.?,')
+    pTF = False
+    #Strip the puncuation off of a word if needed and replace it
+    #Replace keyword with user input
+    if indexC < len(descriptors) and word == descriptors[indexC]:
+        if not indivWords[i][-1].isalnum():
+            punct = indivWords[i][-1]
+            pTF = True
+        if pTF == True:
+            indivWords[i] = newWords[indexC] + punct
+        else:
+            indivWords[i] = newWords[indexC]
+        indexC += 1
+madFile.close()
+madLib = ' '.join(indivWords)
+MLCompleted = 'madlibs_result.txt'
+newFile = open(MLCompleted, 'w')
+newFile.write(madLib)
+newFile.close()
+print("\nCompleted Mad Lib:")
+print(madLib)
+print(f"\nResult saved as {MLCompleted}")
