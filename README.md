@@ -6,5 +6,5 @@ I'll also do my best to label them with the relevant concept explored.
 Thanks for visiting and happy scripting :) 
 - Judah Calder
 
-Originally I had my documentation for the Cloud Based Soc lab here, but I've cleaned it up and turned it into an insctructional blog which you can find here:
+Originally, I had my documentation for the Cloud Based Soc lab here, but I've cleaned it up and turned it into an instructional blog which you can find here:
 https://medium.com/@judah.calder
