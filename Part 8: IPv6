@@ -1,0 +1,33 @@
+Part 8
+1)
+R1
+ipv6 unicast-routing
+int g0/0/0
+ipv6 addr 2001:db8:a::2/64
+int g0/1/0
+ipv6 addr 2001:db8:b::2/64
+int g0/0
+ipv6 addr 2001:db8:a1::/64 eui-64
+int g0/1
+ipv6 addr 2001:db8:a2::/64 eui-64
+
+CSW1
+ipv6 unicast-routing
+int g1/0/1
+ipv6 addr 2001:db8:a1::/64 eui-64
+int po1
+ipv6 enable
+do write
+
+CSW2
+ipv6 unicast-routing
+int g1/0/1
+ipv6 addr 2001:db8:a2::/64 eui-64
+int po1
+ipv6 enable
+do write
+
+2)
+R1
+ipv6 route ::/0 2001:db8:a::1
+ipv6 route ::/0 g0/1/0 2001:db8:b::1 2
