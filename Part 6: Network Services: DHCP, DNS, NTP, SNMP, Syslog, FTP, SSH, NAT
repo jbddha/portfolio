@@ -1,0 +1,177 @@
+Part 6
+1)
+R1
+ip dhcp excluded-address 10.0.0.1 10.0.0.10
+ip dhcp pool A-Mgmt
+network 10.0.0.0 255.255.255.240
+default-router 10.0.0.1
+domain-name jeremysitlab.com
+dns-server 10.5.0.4
+option 43 ip 10.0.0.7
+exit
+
+ip dhcp excluded-address 10.1.0.1 10.1.0.10
+ip dhcp pool A-PC
+network 10.1.0.0 255.255.255.0
+default-router 10.1.0.1
+domain-name jeremysitlab.com
+dns-server 10.5.0.4
+exit
+
+ip dhcp excluded-address 10.2.0.1 10.2.0.10
+ip dhcp pool A-Phone
+network 10.2.0.0 255.255.255.0
+default-router 10.2.0.1
+domain-name jeremysitlab.com
+dns-server 10.5.0.4
+exit
+
+ip dhcp excluded-address 10.0.0.17 10.0.0.26
+ip dhcp pool B-Mgmt
+network 10.0.0.16 255.255.255.240
+default-router 10.0.0.17
+domain-name jeremysitlab.com
+dns-server 10.5.0.4
+option 43 ip 10.0.0.7
+exit
+
+ip dhcp excluded-address 10.3.0.1 10.3.0.10
+ip dhcp pool B-PC
+network 10.3.0.0 255.255.255.0
+default-router 10.3.0.1
+domain-name jeremysitlab.com
+dns-server 10.5.0.4
+exit
+
+ip dhcp excluded-address 10.4.0.1 10.4.0.10
+ip dhcp pool B-Phone
+network 10.4.0.0 255.255.255.0
+default-router 10.4.0.1
+domain-name jeremysitlab.com
+dns-server 10.5.0.4
+exit
+
+ip dhcp excluded-address 10.6.0.1 10.6.0.10
+ip dhcp pool Wi-Fi
+network 10.6.0.0 255.255.255.0
+default-router 10.6.0.1
+domain-name jeremysitlab.com
+dns-server 10.5.0.4
+exit
+
+2)
+DSW A1-2
+int vlan 10
+ip helper-address 10.0.0.76
+int vlan 20
+ip helper-address 10.0.0.76
+int vlan 40
+ip helper-address 10.0.0.76
+int vlan 99
+ip helper-address 10.0.0.76
+
+DSW B1-2
+int vlan 10
+ip helper-address 10.0.0.76
+int vlan 20
+ip helper-address 10.0.0.76
+int vlan 30
+ip helper-address 10.0.0.76
+int vlan 99
+ip helper-address 10.0.0.76
+
+3) 
+manual DNS config SRV1
+a. google.com = 172.253.62.100
+b. youtube.com = 152.250.31.93
+c. jeremysitlab.com = 66.235.200.145
+d. www.jeremysitlab.com = jeremysitlab.com
+
+4)
+All routers and switches
+ip domain lookup
+ip domain-name jeremysitlab.com
+ip name-server 10.5.0.4
+do write
+
+5)
+R1
+ntp master 5
+ntp server 216.239.35.0
+ntp authentication-key 1 md5 ccna
+ntp trusted-key 1
+ntp authenticate
+
+6)
+All Switches
+ntp authentication-key 1 md5 ccna
+ntp trusted-key 1
+ntp authenticate
+ntp server 10.0.0.76 key 1
+do write
+
+7)
+All Routers and Switches
+snmp-server community SNMPSTRING ro
+
+8)
+All Routers and Switches
+logging 10.5.0.4
+logging buffered 8192
+logging trap debugging
+
+9)
+R1
+ip ftp password cisco
+ip ftp username cisco
+exit
+copy ftp flash
+	10.5.0.4
+	c2900-universalk9-mz.SPA.155-3.M4a.bin
+boot system c2900-universalk9-mz.SPA.155-3.M4a.bin
+do write
+do reload
+delete c2900-universalk9-mz.SPA.151-4.M4.bin
+
+10)
+crypto key generate rsa
+	4096
+ip ssh version 2
+access-list 1 permit 10.1.0.0 0.0.0.255
+line vty 0 15
+transport input ssh
+access-class 1 in
+login local
+logging synchronous
+do write
+
+11)
+R1
+int ra g0/0 - 1
+ip nat inside
+int ra g0/0/0, g0/1/0
+ip nat outside
+exit
+ip nat inside source static 10.5.0.4 203.0.113.113
+
+12)
+R1
+access-list 2 permit 10.1.0.0 0.0.0.255
+access-list 2 permit 10.2.0.0 0.0.0.255
+access-list 2 permit 10.3.0.0 0.0.0.255
+access-list 2 permit 10.4.0.0 0.0.0.255
+access-list 2 permit 10.6.0.0 0.0.0.255
+
+ip nat pool POOL1 203.0.113.200 203.0.113.207 netmask 255.255.255.248
+ip nat inside source list 2 pool POOL1 overload
+
+13)
+ALL Routers and Switches
+no cdp run
+lldp run
+do write
+
+ASWs
+int f0/1
+no lldp transmit
+do write
