@@ -1,0 +1,62 @@
+Part 7
+1)
+DSW-A1,2
+ip access-list extended OfficeA_to_OfficeB
+permit icmp 10.1.0.0 0.0.0.255 10.3.0.0 0.0.0.255
+deny ip 10.1.0.0 0.0.0.255 10.3.0.0 0.0.0.255
+permit ip any any
+int ra g1/0/1-3
+ip access-group OfficeA_to_OfficeB in
+
+2)
+ASWs
+int f0/1
+switchport port-security
+switchport port-security maximum 2
+switchport port-security violation restrict
+switchport port-security mac-address sticky
+do write
+
+ASWs
+int f0/1
+switchport port-security
+switchport port-security violation restrict
+switchport port-security mac-address sticky
+do write
+
+3)
+ASW-A1 - 3
+ip dhcp snooping
+ip dhcp snooping vlan 10,20,40,99
+no ip dhcp snooping information option
+int ra g0/1 - 2
+ip dhcp snooping trust
+int f0/1
+ip dhcp snooping limit rate 15
+
+ASW-B1 - 3
+ip dhcp snooping
+ip dhcp snooping vlan 10,20,30,99
+no ip dhcp snooping information option
+int ra g0/1 - 2
+ip dhcp snooping trust
+int f0/1
+ip dhcp snooping limit rate 15
+
+4)
+ASW-A1 - 3
+exit
+ip arp inspection vlan 10,20,40,99
+ip arp inspection validate dst-mac ip src-mac
+int ra g0/1 - 2
+ip arp inspection trust
+do write
+
+ASW-B1 - 3
+exit
+ip arp inspection vlan 10,20,30,99
+ip arp inspection validate dst-mac ip src-mac
+int ra g0/1 - 2
+ip arp inspection trust
+do write
+
