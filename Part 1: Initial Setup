@@ -1,0 +1,22 @@
+Part 1
+Initial Set Up
+1) hostname ASW-A1 etc
+2-4)
+
+CSWs, DSWs
+enable algorithm-type scrypt secret jeremysitlab
+username cisco algorithm-type scrypt secret ccna
+line con 0
+exec-timeout 30
+login local
+logging synchronous
+do write
+
+ASWs,R1
+enable secret jeremysitlab
+username cisco secret ccna
+line con 0
+exec-timeout 30
+login local
+logging synchronous
+do write
